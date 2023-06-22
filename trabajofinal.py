@@ -16,7 +16,33 @@ class Normativas:
         self.idtiponormativa = idtiponormativa
         self.idcategoria = idcategoria
         self.idjurisdiccion = idjurisdiccion
+     
+    @staticmethod
+    def mostrar_registros():
+       
+        # Cursor
+        cursor = conexion.cursor()
 
+        # Ejecutar consulta SQL
+        cursor.execute("SELECT * FROM normativas")
+
+        # Obtener todos los registros
+        registros = cursor.fetchall()
+
+        # Mostrar los registros
+        for registro in registros:
+            print("Número de Registro:", registro[0])
+            print("Número de Normativa:", registro[1])
+            print("Fecha:", registro[2])
+            print("Descripción:", registro[3])
+            print("ID de Normativa:", registro[4])
+            print("ID de Categoría:", registro[5])
+            print("ID de Jurisdicción:", registro[6])
+            print("--------------------")
+
+        # Cerrar cursor y conexión a la base de datos
+        #cursor.close()
+       # conexion.close()
 
 #MENU QUE SE MUESTRA EN CONSOLA 
 def mostrar_menu():

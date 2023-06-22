@@ -1,0 +1,223 @@
+CREATE DATABASE  IF NOT EXISTS `normativa` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `normativa`;
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+--
+-- Host: localhost    Database: normativa
+-- ------------------------------------------------------
+-- Server version	8.0.32
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `categoria`
+--
+
+DROP TABLE IF EXISTS `categoria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categoria` (
+  `idCategoria` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  PRIMARY KEY (`idCategoria`)
+) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categoria`
+--
+
+LOCK TABLES `categoria` WRITE;
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (200,'Laboral'),(201,'Penal'),(202,'Civil'),(203,'Comercial'),(204,'Familias y Sucesiones'),(205,'Agrario y Ambiental'),(206,'Mineria'),(207,'Derecho Informático');
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jurisdiccion`
+--
+
+DROP TABLE IF EXISTS `jurisdiccion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `jurisdiccion` (
+  `idJurisdiccion` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  PRIMARY KEY (`idJurisdiccion`)
+) ENGINE=InnoDB AUTO_INCREMENT=302 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jurisdiccion`
+--
+
+LOCK TABLES `jurisdiccion` WRITE;
+/*!40000 ALTER TABLE `jurisdiccion` DISABLE KEYS */;
+INSERT INTO `jurisdiccion` VALUES (300,'Nacional'),(301,'Provincial');
+/*!40000 ALTER TABLE `jurisdiccion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `normativa_has_palabra_clave`
+--
+
+DROP TABLE IF EXISTS `normativa_has_palabra_clave`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `normativa_has_palabra_clave` (
+  `Normativa_Numero_registro` int NOT NULL,
+  `Palabra_clave_idPalabra_clave` int NOT NULL,
+  PRIMARY KEY (`Normativa_Numero_registro`,`Palabra_clave_idPalabra_clave`),
+  KEY `fk_Normativa_has_Palabra_clave_Palabra_clave1_idx` (`Palabra_clave_idPalabra_clave`),
+  KEY `fk_Normativa_has_Palabra_clave_Normativa_idx` (`Normativa_Numero_registro`),
+  CONSTRAINT `fk_Normativa_has_Palabra_clave_Normativa` FOREIGN KEY (`Normativa_Numero_registro`) REFERENCES `normativas` (`Numero_registro`),
+  CONSTRAINT `fk_Normativa_has_Palabra_clave_Palabra_clave1` FOREIGN KEY (`Palabra_clave_idPalabra_clave`) REFERENCES `palabra_clave` (`idPalabra_clave`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `normativa_has_palabra_clave`
+--
+
+LOCK TABLES `normativa_has_palabra_clave` WRITE;
+/*!40000 ALTER TABLE `normativa_has_palabra_clave` DISABLE KEYS */;
+INSERT INTO `normativa_has_palabra_clave` VALUES (100,600),(100,601),(100,602),(100,603),(100,604),(101,605),(101,606),(101,607),(101,608),(101,609),(102,610),(102,611),(102,612),(102,613),(102,614);
+/*!40000 ALTER TABLE `normativa_has_palabra_clave` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `normativas`
+--
+
+DROP TABLE IF EXISTS `normativas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `normativas` (
+  `Numero_registro` int NOT NULL AUTO_INCREMENT,
+  `Numero` int NOT NULL,
+  `Fecha` date NOT NULL,
+  `Descripcion` varchar(500) NOT NULL,
+  `Tipo_normativa_idTipo_normativa` int NOT NULL,
+  `Categoria_idCategoria` int NOT NULL,
+  `Jurisdiccion_idJurisdiccion` int NOT NULL,
+  PRIMARY KEY (`Numero_registro`),
+  KEY `fk_Normativa_Tipo_normativa1_idx` (`Tipo_normativa_idTipo_normativa`),
+  KEY `fk_Normativa_Categoria1_idx` (`Categoria_idCategoria`),
+  KEY `fk_Normativa_Jurisdiccion1_idx` (`Jurisdiccion_idJurisdiccion`),
+  CONSTRAINT `fk_Normativa_Categoria1` FOREIGN KEY (`Categoria_idCategoria`) REFERENCES `categoria` (`idCategoria`),
+  CONSTRAINT `fk_Normativa_Jurisdiccion1` FOREIGN KEY (`Jurisdiccion_idJurisdiccion`) REFERENCES `jurisdiccion` (`idJurisdiccion`),
+  CONSTRAINT `fk_Normativa_Tipo_normativa1` FOREIGN KEY (`Tipo_normativa_idTipo_normativa`) REFERENCES `tipo_normativa` (`idTipo_normativa`)
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `normativas`
+--
+
+LOCK TABLES `normativas` WRITE;
+/*!40000 ALTER TABLE `normativas` DISABLE KEYS */;
+INSERT INTO `normativas` VALUES (100,20744,'1974-09-11','Ley Nacional que regula la actividad laboral privada, estableciendo las condiciones de existencia del contrato, inicio, desarrollo y fin del mismo. Establece también los principios, derechos y obligaciones de las partes. A su vez, funciona como ley supletoria de las demás regulaciones laborales.',500,200,300),(101,27555,'2021-04-01','Ley Nacional que regula la actividad laboral privada en modalidad de teletrabajo. Establece las condiciones, derechos y obligaciones de esa situación en particular. La misma se incorpora al Título III “De las modalidades del contrato de trabajo” de la Ley de Contrato de Trabajo 20.744.',500,200,300),(102,7642,'1987-12-23','Ley de la Provincia de Córdoba regula el ejercicio profesional de la informática, estableciendo los derechos, obligaciones y normativas para los profesionales informáticos en la provincia y el registro de los mismos, con el objetivo de garantizar la calidad y la ética en el campo de la informática.',500,207,301);
+/*!40000 ALTER TABLE `normativas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `organo`
+--
+
+DROP TABLE IF EXISTS `organo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `organo` (
+  `idOrgano` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `Jurisdiccion_idJurisdiccion` int NOT NULL,
+  PRIMARY KEY (`idOrgano`),
+  KEY `fk_Organo_Jurisdiccion1_idx` (`Jurisdiccion_idJurisdiccion`),
+  CONSTRAINT `fk_Organo_Jurisdiccion1` FOREIGN KEY (`Jurisdiccion_idJurisdiccion`) REFERENCES `jurisdiccion` (`idJurisdiccion`)
+) ENGINE=InnoDB AUTO_INCREMENT=402 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `organo`
+--
+
+LOCK TABLES `organo` WRITE;
+/*!40000 ALTER TABLE `organo` DISABLE KEYS */;
+INSERT INTO `organo` VALUES (400,'Congreso de la Nación',300),(401,'Legislatura',301);
+/*!40000 ALTER TABLE `organo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `palabra_clave`
+--
+
+DROP TABLE IF EXISTS `palabra_clave`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `palabra_clave` (
+  `idPalabra_clave` int NOT NULL AUTO_INCREMENT,
+  `palabra` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idPalabra_clave`)
+) ENGINE=InnoDB AUTO_INCREMENT=615 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `palabra_clave`
+--
+
+LOCK TABLES `palabra_clave` WRITE;
+/*!40000 ALTER TABLE `palabra_clave` DISABLE KEYS */;
+INSERT INTO `palabra_clave` VALUES (600,'contrato'),(601,'trabajo'),(602,'principios'),(603,'obligaciones'),(604,'condiciones'),(605,'teletrabajo'),(606,'remoto'),(607,'informatica'),(608,'conexion'),(609,'desconexion'),(610,'profesional'),(611,'informatico'),(612,'registro'),(613,'etica profesional'),(614,'seguridad de datos');
+/*!40000 ALTER TABLE `palabra_clave` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipo_normativa`
+--
+
+DROP TABLE IF EXISTS `tipo_normativa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tipo_normativa` (
+  `idTipo_normativa` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  PRIMARY KEY (`idTipo_normativa`)
+) ENGINE=InnoDB AUTO_INCREMENT=503 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_normativa`
+--
+
+LOCK TABLES `tipo_normativa` WRITE;
+/*!40000 ALTER TABLE `tipo_normativa` DISABLE KEYS */;
+INSERT INTO `tipo_normativa` VALUES (500,'Ley'),(501,'Decreto'),(502,'Resolución');
+/*!40000 ALTER TABLE `tipo_normativa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'normativa'
+--
+
+--
+-- Dumping routines for database 'normativa'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-06-19 20:17:57

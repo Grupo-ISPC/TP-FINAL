@@ -5,6 +5,20 @@ conexion = mysql.connector.connect(user = 'root', password = '',
                                    database = 'normativa',
                                    port = '3306')
 
+#OPCION 4 ELIMINAR un registro completo
+def eliminar():
+    
+    cursor = conexion.cursor()
+    
+    registro_eliminar = input("Ingrese el número de normativa que desea eliminar: ")
+
+    # Ejecutar consulta SQL
+    sentencia = "DELETE FROM normativas WHERE Numero = ('{}')".format(registro_eliminar)
+    cursor.execute(sentencia)
+    conexion.commit()
+
+    #cursor.close()
+    #conexion.close()
 
 #MENU QUE SE MUESTRA EN CONSOLA 
 def mostrar_menu():
@@ -42,6 +56,7 @@ while True:
 
     elif opcion == "4":
         #BORRAR REGISTRO POR NUMERO DE NORMATIVA
+        eliminar()
         print("Se elimino correctamente")
         print('------------------------')
        

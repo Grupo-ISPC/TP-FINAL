@@ -69,7 +69,7 @@ class Insertar:
 
         
 
-        
+        print(self.numero_normativa, self.fecha, self.descripcion1, self.id_tiponormativa, self.id_categoria, self.id_jurisdiccion)
         # Ejecutar consulta SQL
         sentencia = "INSERT INTO normativas (Numero, Fecha, Descripcion, Tipo_normativa_idTipo_normativa, Categoria_idCategoria, Jurisdiccion_idJurisdiccion) VALUES ('{}', '{}', '{}', '{}', '{}', '{}')" .format(self.numero_normativa, self.fecha, self.descripcion1, self.id_tiponormativa, self.id_categoria, self.id_jurisdiccion)
         cursor.execute(sentencia)
@@ -192,7 +192,7 @@ while True:
     elif opcion == "2":
         #INGRESAR UN NUEVO REGISTRO
         nuevo = Insertar()
-        nuevo.mostrar()
+        print(nuevo.mostrar())
         print("Su registro fue exitoso")
         print('------------------------')
 
